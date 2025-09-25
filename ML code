@@ -1,0 +1,93 @@
+#importing needed libraries 
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Accessing the data and printing a data preview 
+df = pd.read_csv("StudentPerformanceFactors.csv")
+
+print("Dataset preview:")
+print(df.head())
+
+# First: Hours studied VS. Exam Score
+x = df["Hours_Studied"].values
+y = df["Exam_Score"].values
+
+
+#scatter plot
+plt.scatter(x, y, color="blue")
+plt.xlabel("Study Hours")
+plt.ylabel("Exam Score")
+plt.title("Study Hours vs Exam Score")
+plt.show()
+
+x_mean = np.mean(x)
+y_mean = np.mean(y)
+
+# Calculate slope (m) and intercept (b)
+m = np.sum((x - x_mean) * (y - y_mean)) / np.sum((x - x_mean)**2)
+b = y_mean - m * x_mean
+
+print(f"\nLinear Regression Equation: y = {m:.2f}x + {b:.2f}")
+
+#Prediction
+y_pred = m * x + b
+
+#Model performance 
+mae = np.mean(np.abs(y - y_pred))
+mse = np.mean((y - y_pred)**2)
+r2 = 1 - (np.sum((y - y_pred)**2) / np.sum((y - np.mean(y))**2))
+
+print("\nModel Performance:")
+print(f"MAE: {mae:.2f}")
+print(f"MSE: {mse:.2f}")
+print(f"R² : {r2:.2f}")
+
+#Adding the slope for predictions 
+plt.scatter(x, y, color="blue", label="Actual Data")
+plt.plot(x, y_pred, color="red", linewidth=2, label="Regression Line")
+plt.xlabel("Study Hours")
+plt.ylabel("Exam Score")
+plt.title("Linear Regression Prediction")
+plt.legend()
+plt.show()
+
+# Looking at the data from a different perspective 
+x = df["Attendance"].values
+y = df["Exam_Score"].values
+
+#scatter plot
+plt.scatter(x, y, color="blue")
+plt.xlabel("Attendance")
+plt.ylabel("Exam Score")
+plt.title("Attendance vs Exam Score")
+plt.show()
+
+x_mean = np.mean(x)
+y_mean = np.mean(y)
+
+# Calculate slope (m) and intercept (b)
+m = np.sum((x - x_mean) * (y - y_mean)) / np.sum((x - x_mean)**2)
+b = y_mean - m * x_mean
+
+print(f"\nLinear Regression Equation: y = {m:.2f}x + {b:.2f}")
+
+y_pred = m * x + b
+
+mae = np.mean(np.abs(y - y_pred))
+mse = np.mean((y - y_pred)**2)
+r2 = 1 - (np.sum((y - y_pred)**2) / np.sum((y - np.mean(y))**2))
+
+print("\nModel Performance:")
+print(f"MAE: {mae:.2f}")
+print(f"MSE: {mse:.2f}")
+print(f"R² : {r2:.2f}")
+
+plt.scatter(x, y, color="blue", label="Actual Data")
+plt.plot(x, y_pred, color="red", linewidth=2, label="Regression Line")
+plt.xlabel("Attendance")
+plt.ylabel("Exam Score")
+plt.title("Linear Regression Prediction")
+plt.legend()
+plt.show()
